@@ -1,0 +1,17 @@
+.square {
+  /* width: 8vw; */
+  /* height: 8vw; */
+  border: 1px solid black;
+}
+
+.clicked {
+  border: 5px solid green;
+}
+
+.path {
+  background-color: #00000020;
+}
+
+.block {
+  background-color: #000000;
+}
