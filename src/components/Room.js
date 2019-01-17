@@ -27,6 +27,7 @@ class Room extends Component {
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // THIS IS WHERE I ENSURE A PLAYABLE FIELD ⬇️
+// A matrix would really take care of this for me...
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     newArr.forEach(squareObj => {
       let squareAbove = newArr.find(square => square.id === squareObj.id - 10)
