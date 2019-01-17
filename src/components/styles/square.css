@@ -9,9 +9,22 @@
 }
 
 .path {
-  background-color: #00000020;
+  background-color: #eaeaea;
 }
 
 .block {
   background-color: #000000;
+}
+
+.exitPoint {
+  background-color: blue;
+}
+
+.win {
+  background-color: yellow;
+  border: 1px solid black;
+  font-size: 2em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

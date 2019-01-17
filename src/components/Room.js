@@ -6,13 +6,19 @@ import './styles/room.css'
 class Room extends Component {
   state = {
     isSelected: null,
-    squareArray: []
+    isExitPoint: null,
+    squareArray: [],
+    won: false
   }
 
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  // LOAD BOARD ⬇️
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   componentDidMount = () => {
     let arr = []
     let newArr = []
     let i = 0
+    let borderSquareArr = []
 
     window.addEventListener('keydown', (event) => this.handleKeyDown(event.code))
 
@@ -22,12 +28,20 @@ class Room extends Component {
 
     arr.forEach(el => {
       let obj = {id: el, charAllowed: this.determineAllowed(), selectTile:false}
+
+      if (this.topSquare(el) || this.rightSquare(el) || this.bottomSquare(el) || this.leftSquare(el)) {
+        borderSquareArr.push(obj)
+      }
+
       newArr.push(obj)
     })
 
+    const exitPoint = borderSquareArr[Math.floor(Math.random()*borderSquareArr.length)].id
+    console.log(exitPoint);
+
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // THIS IS WHERE I ENSURE A PLAYABLE FIELD ⬇️
-// A matrix would really take care of this for me...
+// Understanding what a matrix is/does would really take care of most of this for me...
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     newArr.forEach(squareObj => {
       let squareAbove = newArr.find(square => square.id === squareObj.id - 10)
@@ -69,11 +83,23 @@ class Room extends Component {
           squareLeft.charAllowed = true
         }
       }
+
+      if (squareObj.id === exitPoint) {
+        squareObj.charAllowed = true
+      }
     })
 
-    this.setState({ squareArray: newArr })
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // ENDPOINT SELECTION ⬇️
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    this.setState({ squareArray: newArr, isExitPoint: exitPoint })
   }
 
+
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  // TILE SELECTION ⬇️
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   selectTile = (selectedSquareId) => {
     console.log(selectedSquareId);
     if (this.state.isSelected === selectedSquareId) {
@@ -85,6 +111,7 @@ class Room extends Component {
         isSelected: selectedSquareId,
       })
     }
+
   }
 
   determineAllowed = () => {
@@ -96,13 +123,29 @@ class Room extends Component {
     }
   }
 
+  topSquare = (currentlySelected) => {
+    return currentlySelected < 10 ? true : false
+  }
+
+  rightSquare = (currentlySelected) => {
+    return currentlySelected.toString().split('').pop() === '0' ? true : false
+  }
+
+  bottomSquare = (currentlySelected) => {
+    return currentlySelected > 91 ? true : false
+  }
+
+  leftSquare = (currentlySelected) => {
+    return currentlySelected.toString().split('').pop() === '1' ? true : false
+  }
+
   handleKeyDown = (keyPressed) => {
     if (this.state.isSelected) {
       let currentlySelected = this.state.isSelected
 
       switch (keyPressed) {
         case 'ArrowRight':
-          if (currentlySelected.toString().split('').pop() !== '0') {
+          if (!this.rightSquare(currentlySelected)) {
             currentlySelected = currentlySelected + 1
             let nextSpace = this.state.squareArray.find(squareObj => squareObj.id === currentlySelected)
 
@@ -112,7 +155,7 @@ class Room extends Component {
           }
           break
         case 'ArrowLeft':
-          if (currentlySelected.toString().split('').pop() !== '1') {
+          if (!this.leftSquare(currentlySelected)) {
             currentlySelected = currentlySelected - 1
             let nextSpace = this.state.squareArray.find(squareObj => squareObj.id === currentlySelected)
 
@@ -122,7 +165,7 @@ class Room extends Component {
           }
           break
         case 'ArrowUp':
-          if (currentlySelected > 10) {
+          if (!this.topSquare(currentlySelected)) {
             currentlySelected = currentlySelected - 10
             let nextSpace = this.state.squareArray.find(squareObj => squareObj.id === currentlySelected)
 
@@ -132,7 +175,7 @@ class Room extends Component {
           }
           break
         case 'ArrowDown':
-          if (currentlySelected < 91) {
+          if (!this.bottomSquare(currentlySelected)) {
             currentlySelected = currentlySelected + 10
             let nextSpace = this.state.squareArray.find(squareObj => squareObj.id === currentlySelected)
 
@@ -147,11 +190,12 @@ class Room extends Component {
     }
   }
 
+
   render() {
     return (
       <div className='game-room'>
         <div className="room grid-container">
-          {this.state.squareArray.length > 24 ? this.state.squareArray.map(el => <Square isSelected={ this.state.isSelected } key={ el.id } id={el.id} charAllowed={el.charAllowed} selectTile={this.selectTile}/>) : null}
+          {this.state.squareArray.map(el => <Square isSelected={ this.state.isSelected } key={ el.id } id={el.id} charAllowed={el.charAllowed} isExitPoint={ this.state.isExitPoint } selectTile={this.selectTile}/>)}
         </div>
       </div>
     )

@@ -3,22 +3,15 @@ import React, { Component } from 'react'
 import './styles/square.css'
 
 class Square extends Component {
-  state = {
-    isClicked: false,
-  }
-
-  handleClick = () => {
-    this.setState({
-      isClicked: !this.state.isClicked
-    })
-  }
-
   render() {
-    let clicked = this.props.isSelected === this.props.id ? 'clicked' : ''
+    let clicked = this.props.isSelected === this.props.id ? 'clicked' : null
+    let exitPoint = this.props.isExitPoint === this.props.id ? 'exitPoint' : null
     let charAllowed = this.props.charAllowed ? 'path' : 'block'
+    let win = clicked === 'clicked' && exitPoint === 'exitPoint' ? 'win' : null
 
     return (
-      <div className={`square ${clicked} ${charAllowed}`} onClick={ this.props.charAllowed ? () => this.props.selectTile(this.props.id) : null }>
+      <div className={`square ${clicked} ${charAllowed} ${exitPoint} ${win}`} onClick={ this.props.charAllowed ? () => this.props.selectTile(this.props.id) : null }>
+        {win === 'win' ? '🏆' : null}
       </div>
     )
   }
