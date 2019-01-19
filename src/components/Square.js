@@ -4,6 +4,12 @@ import Character from './Character.js'
 import './styles/square.css'
 
 class Square extends Component {
+  createChar = (win) => {
+    let charNum = this.props.charLocations.indexOf(this.props.id)
+
+    return <Character win={win} charNum={ charNum } />
+  }
+
   render() {
     const { isSelected, id, isExitPoint, charAllowed, charLocations, selectTile } = this.props
 
@@ -15,10 +21,12 @@ class Square extends Component {
 
     return (
       <div className={`square ${clicked} ${charIsAllowed} ${exitPoint} ${win}`} onClick={ charAllowed ? () => selectTile(id) : null }>
-        {charOnTile ? <Character win={win}/> : null}
+        {charOnTile ? this.createChar(win) : null}
       </div>
     )
   }
 }
 
 export default Square
+
+// {charOnTile ? <Character win={win}/> : null}

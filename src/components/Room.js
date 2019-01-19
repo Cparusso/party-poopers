@@ -54,7 +54,7 @@ class Room extends Component {
     }
 
     selectExitPoints(4)
-    
+
     newArr.forEach(squareObj => {
       let squareAbove = newArr.find(square => square.id === squareObj.id - 10)
       let squareRight = newArr.find(square => square.id === squareObj.id + 1)

@@ -4,3 +4,32 @@
   align-items: center;
   height: 100%;
 }
+
+.character {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.charlie {
+  background-color: red;
+  border-radius: 2em;
+  width:  50%;
+}
+
+.heather {
+  background-color: pink;
+  border-radius: 2em;
+  width:  50%;
+}
+
+.bill {
+  background-color: purple;
+  border-radius: 2em;
+  width:  50%;
+}
+
+.meat {
+  background-color: blue;
+  border-radius: 2em;
+  width:  50%;
+}
