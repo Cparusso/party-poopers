@@ -1,11 +1,25 @@
 .square {
   /* width: 8vw; */
   /* height: 8vw; */
-  border: 1px solid black;
+  /* border: 0.02px solid black; */
+  border-radius: 2em;
 }
 
 .clicked {
-  border: 5px solid green;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: inset #eaeaea 0px 0px 0px, inset #eaeaea -0px -0px 0px;
+  }
+  50% {
+    box-shadow: inset green 2px 2px 8px, inset green -2px -2px 8px;
+    /* box-shadow: [direction (inset)] [color] [Horizontal Distance] [Vertical Distance] [size];  */
+  }
+  100% {
+    box-shadow: inset #eaeaea 0px 0px 0px, inset #eaeaea -0px -0px 0px;
+  }
 }
 
 .path {
@@ -17,14 +31,29 @@
 }
 
 .exitPoint {
-  background-color: blue;
+  background-color: brown;
 }
 
 .win {
   background-color: yellow;
-  border: 1px solid black;
-  font-size: 2em;
+  font-size: 1em;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.pink {
+  background-color: pink;
+}
+
+.green {
+  background-color: green;
+}
+
+.red {
+  background-color: red;
+}
+
+.purple {
+  background-color: purple;
 }

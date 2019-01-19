@@ -6,7 +6,7 @@ class DirectionCard extends Component {
   render() {
     return (
       <div className="direction-card">
-        ⬆️
+        <p>:(</p>
       </div>
     )
   }

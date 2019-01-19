@@ -9,14 +9,14 @@
   justify-content: center;
   height: 96vh;
   align-items: center;
+  background-color: #eaeaea;
 }
 
 .grid-container {
   display: grid;
   grid-template-columns: repeat(10, 4vw);
   grid-template-rows: repeat(10, 4vw);
-  border: solid black 0.3em;
-  border-radius: 1.5em;
+  border: solid black 0.1em;
+  border-radius: 1.8em;
   overflow: hidden;
-
 }

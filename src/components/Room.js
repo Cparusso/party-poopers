@@ -6,9 +6,9 @@ import './styles/room.css'
 class Room extends Component {
   state = {
     isSelected: null,
-    isExitPoint: null,
+    isExitPoint: [],
     squareArray: [],
-    won: false
+    charLocations: [45, 46, 55, 56]
   }
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -19,6 +19,7 @@ class Room extends Component {
     let newArr = []
     let i = 0
     let borderSquareArr = []
+    const exitPoints = []
 
     window.addEventListener('keydown', (event) => this.handleKeyDown(event.code))
 
@@ -36,13 +37,24 @@ class Room extends Component {
       newArr.push(obj)
     })
 
-    const exitPoint = borderSquareArr[Math.floor(Math.random()*borderSquareArr.length)].id
-    console.log(exitPoint);
+
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // THIS IS WHERE I ENSURE A PLAYABLE FIELD ⬇️
 // Understanding what a matrix is/does would really take care of most of this for me...
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    const selectExitPoints = (num) => {
+      for (let i = 0; i < num; ++i) {
+        let randBorderSquare = borderSquareArr[Math.floor(Math.random()*borderSquareArr.length)].id
+
+        if (!exitPoints.includes(randBorderSquare)) {
+          exitPoints.push(randBorderSquare)
+        }
+      }
+    }
+
+    selectExitPoints(4)
+    
     newArr.forEach(squareObj => {
       let squareAbove = newArr.find(square => square.id === squareObj.id - 10)
       let squareRight = newArr.find(square => square.id === squareObj.id + 1)
@@ -84,7 +96,7 @@ class Room extends Component {
         }
       }
 
-      if (squareObj.id === exitPoint) {
+      if (exitPoints.includes(squareObj.id)) {
         squareObj.charAllowed = true
       }
     })
@@ -93,25 +105,26 @@ class Room extends Component {
     // ENDPOINT SELECTION ⬇️
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    this.setState({ squareArray: newArr, isExitPoint: exitPoint })
+    this.setState({ squareArray: newArr, isExitPoint: exitPoints })
   }
-
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   // TILE SELECTION ⬇️
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  selectTile = (selectedSquareId) => {
-    console.log(selectedSquareId);
-    if (this.state.isSelected === selectedSquareId) {
+  selectTile = (selectedSquareId, currentChar) => {
+    let charLocationsArr = this.state.charLocations.slice()
+    charLocationsArr[currentChar] = selectedSquareId
+
+    if (this.state.isSelected === selectedSquareId && this.state.charLocations.includes(selectedSquareId)) {
       this.setState({
         isSelected: null,
       })
     } else {
       this.setState({
         isSelected: selectedSquareId,
+        charLocations: charLocationsArr
       })
     }
-
   }
 
   determineAllowed = () => {
@@ -142,6 +155,7 @@ class Room extends Component {
   handleKeyDown = (keyPressed) => {
     if (this.state.isSelected) {
       let currentlySelected = this.state.isSelected
+      let currentChar = this.state.charLocations.indexOf(currentlySelected)
 
       switch (keyPressed) {
         case 'ArrowRight':
@@ -149,8 +163,8 @@ class Room extends Component {
             currentlySelected = currentlySelected + 1
             let nextSpace = this.state.squareArray.find(squareObj => squareObj.id === currentlySelected)
 
-            if (nextSpace.charAllowed) {
-              this.selectTile(currentlySelected)
+            if (nextSpace.charAllowed && !this.state.charLocations.includes(nextSpace.id)) {
+              this.selectTile(currentlySelected, currentChar)
             }
           }
           break
@@ -159,8 +173,8 @@ class Room extends Component {
             currentlySelected = currentlySelected - 1
             let nextSpace = this.state.squareArray.find(squareObj => squareObj.id === currentlySelected)
 
-            if (nextSpace.charAllowed) {
-              this.selectTile(currentlySelected)
+            if (nextSpace.charAllowed && !this.state.charLocations.includes(nextSpace.id)) {
+              this.selectTile(currentlySelected, currentChar)
             }
           }
           break
@@ -169,8 +183,8 @@ class Room extends Component {
             currentlySelected = currentlySelected - 10
             let nextSpace = this.state.squareArray.find(squareObj => squareObj.id === currentlySelected)
 
-            if (nextSpace.charAllowed) {
-              this.selectTile(currentlySelected)
+            if (nextSpace.charAllowed && !this.state.charLocations.includes(nextSpace.id)) {
+              this.selectTile(currentlySelected, currentChar)
             }
           }
           break
@@ -179,8 +193,8 @@ class Room extends Component {
             currentlySelected = currentlySelected + 10
             let nextSpace = this.state.squareArray.find(squareObj => squareObj.id === currentlySelected)
 
-            if (nextSpace.charAllowed) {
-              this.selectTile(currentlySelected)
+            if (nextSpace.charAllowed && !this.state.charLocations.includes(nextSpace.id)) {
+              this.selectTile(currentlySelected, currentChar)
             }
           }
             break
@@ -192,10 +206,19 @@ class Room extends Component {
 
 
   render() {
+    const { charLocations, isSelected, isExitPoint } = this.state
+
     return (
       <div className='game-room'>
         <div className="room grid-container">
-          {this.state.squareArray.map(el => <Square isSelected={ this.state.isSelected } key={ el.id } id={el.id} charAllowed={el.charAllowed} isExitPoint={ this.state.isExitPoint } selectTile={this.selectTile}/>)}
+          {this.state.squareArray.map(el => <Square
+            charLocations={ charLocations }
+            isSelected={ isSelected }
+            key={ el.id }
+            id={ el.id }
+            charAllowed={ el.charAllowed }
+            isExitPoint={ isExitPoint }
+            selectTile={ this.selectTile }/>)}
         </div>
       </div>
     )

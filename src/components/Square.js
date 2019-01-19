@@ -1,17 +1,21 @@
 import React, { Component } from 'react'
+import Character from './Character.js'
 
 import './styles/square.css'
 
 class Square extends Component {
   render() {
-    let clicked = this.props.isSelected === this.props.id ? 'clicked' : null
-    let exitPoint = this.props.isExitPoint === this.props.id ? 'exitPoint' : null
-    let charAllowed = this.props.charAllowed ? 'path' : 'block'
+    const { isSelected, id, isExitPoint, charAllowed, charLocations, selectTile } = this.props
+
+    let clicked = isSelected === id ? 'clicked' : null
+    let exitPoint = isExitPoint.includes(id) ? 'exitPoint' : null
+    let charOnTile = charLocations.includes(id)
+    let charIsAllowed = charAllowed ? 'path' : 'block'
     let win = clicked === 'clicked' && exitPoint === 'exitPoint' ? 'win' : null
 
     return (
-      <div className={`square ${clicked} ${charAllowed} ${exitPoint} ${win}`} onClick={ this.props.charAllowed ? () => this.props.selectTile(this.props.id) : null }>
-        {win === 'win' ? '🏆' : null}
+      <div className={`square ${clicked} ${charIsAllowed} ${exitPoint} ${win}`} onClick={ charAllowed ? () => selectTile(id) : null }>
+        {charOnTile ? <Character win={win}/> : null}
       </div>
     )
   }
