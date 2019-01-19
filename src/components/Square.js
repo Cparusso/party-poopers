@@ -17,7 +17,7 @@ class Square extends Component {
     let exitPoint = isExitPoint.includes(id) ? 'exitPoint' : null
     let charOnTile = charLocations.includes(id)
     let charIsAllowed = charAllowed ? 'path' : 'block'
-    let win = clicked === 'clicked' && exitPoint === 'exitPoint' ? 'win' : null
+    let win = charOnTile && exitPoint === 'exitPoint' ? 'win' : null
 
     return (
       <div className={`square ${clicked} ${charIsAllowed} ${exitPoint} ${win}`} onClick={ charAllowed ? () => selectTile(id) : null }>
