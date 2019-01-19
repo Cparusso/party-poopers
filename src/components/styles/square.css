@@ -2,7 +2,7 @@
   /* width: 8vw; */
   /* height: 8vw; */
   /* border: 0.02px solid black; */
-  border-radius: 1.1em;
+  /* border-radius: 1.1em; */
 }
 
 .clicked {
@@ -31,7 +31,7 @@
 }
 
 .exitPoint {
-  background-color: brown;
+  background-color: #a5532a;
 }
 
 .win {

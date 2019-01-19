@@ -27,7 +27,7 @@ class Character extends Component {
     return (
       <div id='character-container'>
         <div className={`character ${charName} `}>
-          {this.props.win === 'win' ? '🤩' : '☹️'}
+          {this.props.win === 'win' ? '🤩' : '🤓'}
         </div>
       </div>
     )
