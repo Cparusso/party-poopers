@@ -6,8 +6,8 @@ import './styles/room.css'
 class Room extends Component {
   state = {
     isSelected: null,
-    isExitPoint: [],
     squareArray: [],
+    isExitPoint: [],
     charLocations: [45, 46, 55, 56] //Need to think of a way to be comparing this array and the exit point array
                                     //When they match you win and the game should end
                                     //Each exit point can be tied to a character via their indexes
@@ -51,7 +51,6 @@ class Room extends Component {
 
         if (!exitPoints.includes(randBorderSquare)) {
           exitPoints.push(randBorderSquare)
-          console.log(exitPoints);
         } else {
           selectExitPoints(1)
         }
@@ -109,10 +108,6 @@ class Room extends Component {
       }
     })
 
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // ENDPOINT SELECTION ⬇️
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
     this.setState({ squareArray: newArr, isExitPoint: exitPoints })
   }
 
@@ -124,20 +119,20 @@ class Room extends Component {
     let charLocationsArr = this.state.charLocations.slice()
     charLocationsArr[currentChar] = selectedSquareId
 
-    if (this.state.charLocations.includes(selectedSquareId)) {
+    //clicking the selected square should remove the selection.
+    if (this.state.isSelected === selectedSquareId) {
+      this.setState({
+        isSelected: null,
+      })
+    } else {
       this.setState({
         isSelected: selectedSquareId,
         charLocations: charLocationsArr
       })
     }
-
-    if (this.state.isSelected === selectedSquareId) {
-      this.setState({
-        isSelected: null,
-      })
-    }
   }
 
+  //This function is the initial decider on wether or not a square is a path or a block - 50/50 chance
   determineAllowed = () => {
     let num  = Math.floor(Math.random() * 2)
     if (num % 2 === 0) {
@@ -189,6 +184,7 @@ class Room extends Component {
             }
           }
           break
+        //ArrowUp causes an error on the bottom left square
         case 'ArrowUp':
           if (!this.topSquare(currentlySelected)) {
             currentlySelected = currentlySelected - 10
@@ -199,6 +195,7 @@ class Room extends Component {
             }
           }
           break
+        //ArrowDown causes an error on the bottom left square
         case 'ArrowDown':
           if (!this.bottomSquare(currentlySelected)) {
             currentlySelected = currentlySelected + 10

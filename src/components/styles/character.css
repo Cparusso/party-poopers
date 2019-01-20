@@ -10,26 +10,26 @@
   justify-content: flex-end;
 }
 
-.charlie {
+.red {
   background-color: red;
-  border-radius: 2em;
+  border-radius: 0.3em;
   width:  50%;
 }
 
-.heather {
-  background-color: pink;
-  border-radius: 2em;
-  width:  50%;
-}
-
-.bill {
+.purple {
   background-color: purple;
-  border-radius: 2em;
+  border-radius: 0.3em;
   width:  50%;
 }
 
-.meat {
+.pink {
+  background-color: pink;
+  border-radius: 0.3em;
+  width:  50%;
+}
+
+.blue {
   background-color: blue;
-  border-radius: 2em;
+  border-radius: 0.3em;
   width:  50%;
 }

@@ -23,7 +23,7 @@
 }
 
 .path {
-  background-color: #ffe2bdc2;
+  background-color: #e0e0e0;
 }
 
 .block {
@@ -40,20 +40,4 @@
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.pink {
-  background-color: pink;
-}
-
-.green {
-  background-color: green;
-}
-
-.red {
-  background-color: red;
-}
-
-.purple {
-  background-color: purple;
 }
