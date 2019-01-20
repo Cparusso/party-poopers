@@ -7,18 +7,21 @@ class Character extends Component {
     let name
     switch (charNum) {
       case 0:
-        return name = 'charlie'
+        name = 'charlie'
         break
       case 1:
-        return name = 'bill'
+        name = 'bill'
         break
       case 2:
-        return name = 'heather'
+        name = 'heather'
         break
       case 3:
-        return name = 'meat'
+        name = 'meat'
         break
-    }
+      default:
+        break
+      }
+    return name
   }
 
   render() {

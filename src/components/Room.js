@@ -39,24 +39,30 @@ class Room extends Component {
       newArr.push(obj)
     })
 
-
-
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // THIS IS WHERE I ENSURE A PLAYABLE FIELD ⬇️
 // Understanding what a matrix is/does would really take care of most of this for me...
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    //This function picks four random squares out of the array of all the border squares.
+    //These will be used as the exit exitPoints.
     const selectExitPoints = (num) => {
       for (let i = 0; i < num; ++i) {
         let randBorderSquare = borderSquareArr[Math.floor(Math.random()*borderSquareArr.length)].id
 
         if (!exitPoints.includes(randBorderSquare)) {
           exitPoints.push(randBorderSquare)
+          console.log(exitPoints);
+        } else {
+          selectExitPoints(1)
         }
       }
     }
 
     selectExitPoints(4)
 
+    //Here is where I attempted to fill out more of the board with traversable squares.
+    //This needs a LOT of fine tuning as most of the boards I load are unplayable.
+    //I am considering building rooms with a canvas instead of randomizing the boards.
     newArr.forEach(squareObj => {
       let squareAbove = newArr.find(square => square.id === squareObj.id - 10)
       let squareRight = newArr.find(square => square.id === squareObj.id + 1)
@@ -114,17 +120,20 @@ class Room extends Component {
   // TILE SELECTION ⬇️
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   selectTile = (selectedSquareId, currentChar) => {
+    //Create a copy of the character locations array so that I can alter the state of a single element from the array
     let charLocationsArr = this.state.charLocations.slice()
     charLocationsArr[currentChar] = selectedSquareId
 
-    if (this.state.isSelected === selectedSquareId && this.state.charLocations.includes(selectedSquareId)) {
-      this.setState({
-        isSelected: null,
-      })
-    } else {
+    if (this.state.charLocations.includes(selectedSquareId)) {
       this.setState({
         isSelected: selectedSquareId,
         charLocations: charLocationsArr
+      })
+    }
+
+    if (this.state.isSelected === selectedSquareId) {
+      this.setState({
+        isSelected: null,
       })
     }
   }
