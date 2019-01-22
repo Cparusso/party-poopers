@@ -63,11 +63,17 @@ class Room extends Component {
     //This needs a LOT of fine tuning as most of the boards I load are unplayable.
     //I am considering building rooms with a canvas instead of randomizing the boards.
     newArr.forEach(squareObj => {
+      //Find the squares around the current square.
       let squareAbove = newArr.find(square => square.id === squareObj.id - 10)
+      let squareUpRight = newArr.find(square => square.id === squareObj.id - 9)
       let squareRight = newArr.find(square => square.id === squareObj.id + 1)
+      let squareDownRight = newArr.find(square => square.id === squareObj.id + 11)
       let squareBelow = newArr.find(square => square.id === squareObj.id + 10)
+      let squareDownLeft = newArr.find(square => square.id === squareObj.id + 9)
       let squareLeft = newArr.find(square => square.id === squareObj.id - 1)
+      let squareUpLeft = newArr.find(square => square.id === squareObj.id - 11)
 
+      //Ensure that there is a box around the center squares where the characters will appear.
       switch (squareObj.id) {
         case 45:
           squareAbove.charAllowed = true
@@ -93,8 +99,11 @@ class Room extends Component {
           break
       }
 
+      //Check to see if this is an internal square.
       if (squareAbove && squareRight && squareBelow && squareLeft) {
+        // If it IS an internal square, check to see if it is surrounded by blocks.
         if (!squareAbove.charAllowed && !squareRight.charAllowed && !squareBelow.charAllowed && !squareLeft.charAllowed) {
+          //If it IS surrounded by blocks, change this square and all surrounding blocks to paths.
           squareObj.charAllowed = true
           squareAbove.charAllowed = true
           squareRight.charAllowed = true
@@ -103,8 +112,18 @@ class Room extends Component {
         }
       }
 
+      // Check to see if this square is an exitpoint.
       if (exitPoints.includes(squareObj.id)) {
+        // If it IS an exitpoint, change it and all surrounding squares to paths.
         squareObj.charAllowed = true
+        if (squareAbove) { squareAbove.charAllowed = true }
+        if (squareUpRight) { squareUpRight.charAllowed = true }
+        if (squareRight) { squareRight.charAllowed = true }
+        if (squareDownRight) { squareDownRight.charAllowed = true }
+        if (squareBelow) { squareBelow.charAllowed = true }
+        if (squareDownLeft) { squareDownLeft.charAllowed = true }
+        if (squareLeft) { squareLeft.charAllowed = true }
+        if (squareUpLeft) { squareUpLeft.charAllowed = true }
       }
     })
 
