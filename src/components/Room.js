@@ -40,24 +40,29 @@ class Room extends Component {
     })
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-// THIS IS WHERE I ENSURE A PLAYABLE FIELD ⬇️
+// THIS IS WHERE I ENSURE A PLAYABLE FIELD ⬇️ This is bad.
 // Understanding what a matrix is/does would really take care of most of this for me...
+//
+//THOUGHT:
+//Render the board randomly (with a box around the characters) and then FROM EACH CHARACTER randomly create a path of passable squares until I hit the edge of the board, where I will place their exit point.
+//This will require recursion.
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     //This function picks four random squares out of the array of all the border squares.
     //These will be used as the exit exitPoints.
-    const selectExitPoints = (num) => {
-      for (let i = 0; i < num; ++i) {
-        let randBorderSquare = borderSquareArr[Math.floor(Math.random()*borderSquareArr.length)].id
+    // const selectExitPoints = (num) => {
+    //   for (let i = 0; i < num; ++i) {
+    //     let randBorderSquare = borderSquareArr[Math.floor(Math.random()*borderSquareArr.length)].id
+    //
+    //     if (!exitPoints.includes(randBorderSquare)) {
+    //       exitPoints.push(randBorderSquare)
+    //     } else {
+    //       selectExitPoints(1)
+    //     }
+    //   }
+    // }
+    //
+    // selectExitPoints(4)
 
-        if (!exitPoints.includes(randBorderSquare)) {
-          exitPoints.push(randBorderSquare)
-        } else {
-          selectExitPoints(1)
-        }
-      }
-    }
-
-    selectExitPoints(4)
 
     //Here is where I attempted to fill out more of the board with traversable squares.
     //This needs a LOT of fine tuning as most of the boards I load are unplayable.
@@ -73,27 +78,58 @@ class Room extends Component {
       let squareLeft = newArr.find(square => square.id === squareObj.id - 1)
       let squareUpLeft = newArr.find(square => square.id === squareObj.id - 11)
 
+      //This is a recursive function that will hopefully create a path from a starting point to an exitpoint.
+      const createPathToExitPoint = (squareObj) => {
+        let newSquareAbove = newArr.find(square => square.id === squareObj.id - 10)
+        let newSquareRight = newArr.find(square => square.id === squareObj.id + 1)
+        let newSquareBelow = newArr.find(square => square.id === squareObj.id + 10)
+        let newSquareLeft = newArr.find(square => square.id === squareObj.id - 1)
+
+        let surroundingSquares = [newSquareAbove, newSquareRight, newSquareBelow, newSquareLeft]
+
+        let randomSurroundingSquare = surroundingSquares[Math.floor(Math.random()*surroundingSquares.length)]
+
+        //If the randomly selected surrounding square is within the confines of the board, run the function again on this new squareObj UNLESS this randomly selected square is one of the borderSquares.
+        //In this case, simply add the square to the exitpoints array.
+        //Each time we move on, we ensure that the randomly selected square is made into a path
+        if (borderSquareArr.includes(randomSurroundingSquare)) {
+          if (exitPoints.includes(randomSurroundingSquare.id)) {
+            createPathToExitPoint(randomSurroundingSquare)
+          } else {
+            randomSurroundingSquare.charAllowed = true
+            exitPoints.push(randomSurroundingSquare.id)
+          }
+        } else {
+          randomSurroundingSquare.charAllowed = true
+          createPathToExitPoint(randomSurroundingSquare)
+        }
+      }
+
       //Ensure that there is a box around the center squares where the characters will appear.
       switch (squareObj.id) {
         case 45:
+          createPathToExitPoint(squareObj)
+          squareObj.charAllowed = true
           squareAbove.charAllowed = true
           squareLeft.charAllowed = true
-          squareObj.charAllowed = true
           break
         case 46:
+          createPathToExitPoint(squareObj)
+          squareObj.charAllowed = true
           squareRight.charAllowed = true
           squareAbove.charAllowed = true
-          squareObj.charAllowed = true
           break
         case 55:
+          createPathToExitPoint(squareObj)
+          squareObj.charAllowed = true
           squareBelow.charAllowed = true
           squareLeft.charAllowed = true
-          squareObj.charAllowed = true
           break
         case 56:
+          createPathToExitPoint(squareObj)
+          squareObj.charAllowed = true
           squareBelow.charAllowed = true
           squareRight.charAllowed = true
-          squareObj.charAllowed = true
           break
         default:
           break
@@ -111,19 +147,11 @@ class Room extends Component {
           squareLeft.charAllowed = true
         }
       }
+    })
 
-      // Check to see if this square is an exitpoint.
-      if (exitPoints.includes(squareObj.id)) {
-        // If it IS an exitpoint, change it and all surrounding squares to paths.
-        squareObj.charAllowed = true
-        if (squareAbove) { squareAbove.charAllowed = true }
-        if (squareUpRight) { squareUpRight.charAllowed = true }
-        if (squareRight) { squareRight.charAllowed = true }
-        if (squareDownRight) { squareDownRight.charAllowed = true }
-        if (squareBelow) { squareBelow.charAllowed = true }
-        if (squareDownLeft) { squareDownLeft.charAllowed = true }
-        if (squareLeft) { squareLeft.charAllowed = true }
-        if (squareUpLeft) { squareUpLeft.charAllowed = true }
+    borderSquareArr.forEach(square => {
+      if (!exitPoints.includes(square.id)) {
+        square.charAllowed = false
       }
     })
 
@@ -177,6 +205,10 @@ class Room extends Component {
     return currentlySelected.toString().split('').pop() === '1' ? true : false
   }
 
+
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  // ARROW KEY FUNCTIONALITY ⬇️
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   handleKeyDown = (keyPressed) => {
     if (this.state.isSelected) {
       let currentlySelected = this.state.isSelected
