@@ -110,43 +110,43 @@ class Room extends Component {
         case 45:
           createPathToExitPoint(squareObj)
           squareObj.charAllowed = true
-          squareAbove.charAllowed = true
-          squareLeft.charAllowed = true
+          // squareAbove.charAllowed = true
+          // squareLeft.charAllowed = true
           break
         case 46:
           createPathToExitPoint(squareObj)
           squareObj.charAllowed = true
-          squareRight.charAllowed = true
-          squareAbove.charAllowed = true
+          // squareRight.charAllowed = true
+          // squareAbove.charAllowed = true
           break
         case 55:
           createPathToExitPoint(squareObj)
           squareObj.charAllowed = true
-          squareBelow.charAllowed = true
-          squareLeft.charAllowed = true
+          // squareBelow.charAllowed = true
+          // squareLeft.charAllowed = true
           break
         case 56:
           createPathToExitPoint(squareObj)
           squareObj.charAllowed = true
-          squareBelow.charAllowed = true
-          squareRight.charAllowed = true
+          // squareBelow.charAllowed = true
+          // squareRight.charAllowed = true
           break
         default:
           break
       }
 
       //Check to see if this is an internal square.
-      if (squareAbove && squareRight && squareBelow && squareLeft) {
-        // If it IS an internal square, check to see if it is surrounded by blocks.
-        if (!squareAbove.charAllowed && !squareRight.charAllowed && !squareBelow.charAllowed && !squareLeft.charAllowed) {
-          //If it IS surrounded by blocks, change this square and all surrounding blocks to paths.
-          squareObj.charAllowed = true
-          squareAbove.charAllowed = true
-          squareRight.charAllowed = true
-          squareBelow.charAllowed = true
-          squareLeft.charAllowed = true
-        }
-      }
+      // if (squareAbove && squareRight && squareBelow && squareLeft) {
+      //   // If it IS an internal square, check to see if it is surrounded by blocks.
+      //   if (!squareAbove.charAllowed && !squareRight.charAllowed && !squareBelow.charAllowed && !squareLeft.charAllowed) {
+      //     //If it IS surrounded by blocks, change this square and all surrounding blocks to paths.
+      //     squareObj.charAllowed = true
+      //     squareAbove.charAllowed = true
+      //     squareRight.charAllowed = true
+      //     squareBelow.charAllowed = true
+      //     squareLeft.charAllowed = true
+      //   }
+      // }
     })
 
     borderSquareArr.forEach(square => {
@@ -181,8 +181,8 @@ class Room extends Component {
 
   //This function is the initial decider on wether or not a square is a path or a block - 50/50 chance
   determineAllowed = () => {
-    let num  = Math.floor(Math.random() * 2)
-    if (num % 2 === 0) {
+    let num  = Math.random()
+    if (num < 0.5) {
       return true
     } else {
       return false
