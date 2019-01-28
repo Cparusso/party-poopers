@@ -12,24 +12,24 @@
 
 .red {
   background-color: red;
-  border-radius: 0.3em;
+  border-radius: 1em;
   width:  50%;
 }
 
 .purple {
   background-color: purple;
-  border-radius: 0.3em;
+  border-radius: 1em;
   width:  50%;
 }
 
 .pink {
   background-color: pink;
-  border-radius: 0.3em;
+  border-radius: 1em;
   width:  50%;
 }
 
 .blue {
   background-color: blue;
-  border-radius: 0.3em;
+  border-radius: 1em;
   width:  50%;
 }
