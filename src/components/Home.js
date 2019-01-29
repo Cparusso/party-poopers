@@ -6,23 +6,42 @@ import './styles/home.css'
 
 class Home extends Component {
   state = {
-    playing: false
+    playing: false,
+    currentAction: '↑',
   }
 
   togglePlaying = () => {
-    console.log('lol');
     this.setState({
       playing: !this.state.playing
     })
   }
 
+  changeAction = () => {
+    let possibleActions = ['↑', '→', '↓', '←']
+    let currentAction = this.state.currentAction
+    let nextAction = possibleActions[Math.floor(Math.random()*possibleActions.length)]
+    console.log('Current (before):', currentAction)
+    console.log('Next:', nextAction)
+    console.log('Match:', nextAction === currentAction)
+
+    if (nextAction === currentAction) {
+      this.changeAction()
+    } else {
+      this.setState({
+        currentAction: nextAction
+      }, () => (console.log('Current (after):', this.state.currentAction)))
+    }
+  }
+
   render() {
+    const { currentAction } = this.state
+
     return (
       <div className="app">
         {this.state.playing ?
           <div>
             <Room />
-            <DirectionCard />
+            <DirectionCard currentAction={ currentAction } changeAction={ this.changeAction } />
           </div>
         :
           <div className="home-screen-container">

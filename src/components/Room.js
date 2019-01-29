@@ -8,7 +8,7 @@ class Room extends Component {
     isSelected: null,
     squareArray: [],
     isExitPoint: [],
-    charLocations: [45, 46, 55, 56] //Need to think of a way to be comparing this array and the exit point array
+    charLocations: [45, 46, 55, 56], //Need to think of a way to be comparing this array and the exit point array
                                     //When they match you win and the game should end
                                     //Each exit point can be tied to a character via their indexes
   }
