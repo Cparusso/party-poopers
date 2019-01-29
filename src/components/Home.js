@@ -7,7 +7,7 @@ import './styles/home.css'
 class Home extends Component {
   state = {
     playing: false,
-    currentAction: '↑',
+    currentAction: 'up',
   }
 
   togglePlaying = () => {
@@ -17,7 +17,7 @@ class Home extends Component {
   }
 
   changeAction = () => {
-    let possibleActions = ['↑', '→', '↓', '←']
+    let possibleActions = ['up', 'right', 'down', 'left']
     let currentAction = this.state.currentAction
     let nextAction = possibleActions[Math.floor(Math.random()*possibleActions.length)]
     console.log('Current (before):', currentAction)
