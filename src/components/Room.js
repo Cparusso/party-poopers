@@ -69,14 +69,14 @@ class Room extends Component {
     //I am considering building rooms with a canvas instead of randomizing the boards.
     newArr.forEach(squareObj => {
       //Find the squares around the current square.
-      let squareAbove = newArr.find(square => square.id === squareObj.id - 10)
-      let squareUpRight = newArr.find(square => square.id === squareObj.id - 9)
-      let squareRight = newArr.find(square => square.id === squareObj.id + 1)
-      let squareDownRight = newArr.find(square => square.id === squareObj.id + 11)
-      let squareBelow = newArr.find(square => square.id === squareObj.id + 10)
-      let squareDownLeft = newArr.find(square => square.id === squareObj.id + 9)
-      let squareLeft = newArr.find(square => square.id === squareObj.id - 1)
-      let squareUpLeft = newArr.find(square => square.id === squareObj.id - 11)
+      // let squareAbove = newArr.find(square => square.id === squareObj.id - 10)
+      // let squareUpRight = newArr.find(square => square.id === squareObj.id - 9)
+      // let squareRight = newArr.find(square => square.id === squareObj.id + 1)
+      // let squareDownRight = newArr.find(square => square.id === squareObj.id + 11)
+      // let squareBelow = newArr.find(square => square.id === squareObj.id + 10)
+      // let squareDownLeft = newArr.find(square => square.id === squareObj.id + 9)
+      // let squareLeft = newArr.find(square => square.id === squareObj.id - 1)
+      // let squareUpLeft = newArr.find(square => square.id === squareObj.id - 11)
 
       //This is a recursive function that will hopefully create a path from a starting point to an exitpoint.
       const createPathToExitPoint = (squareObj) => {
