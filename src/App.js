@@ -1,13 +1,11 @@
 import React, { Component } from 'react'
-import Room from './components/Room.js'
-import DirectionCard from './components/DirectionCard.js'
+import Home from './components/Home.js'
 
 class App extends Component {
   render() {
     return (
       <div className="app">
-        <Room />
-        <DirectionCard />
+        <Home />
       </div>
     )
   }
