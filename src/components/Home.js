@@ -40,7 +40,7 @@ class Home extends Component {
       <div className="app">
         {this.state.playing ?
           <div>
-            <Room />
+            <Room currentAction={ currentAction } />
             <DirectionCard currentAction={ currentAction } changeAction={ this.changeAction } />
           </div>
         :
@@ -55,9 +55,3 @@ class Home extends Component {
 }
 
 export default Home
-
-//Add an actionCompleted boolean
-//You should be able to freely select a character
-//Once you move them once you should be able to move them again as many times as you would like
-//AFTER you move them once the actionCompleted bool should be flipped
-//If the bool is true then once you switch characters you get a new action

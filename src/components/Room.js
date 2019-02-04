@@ -1,3 +1,9 @@
+//Add an actionCompleted boolean
+//You should be able to freely select a character
+//Once you move them once you should be able to move them again as many times as you would like in the same direction
+//AFTER you move them once the actionCompleted bool should be flipped
+//If the bool is true then once you switch characters you get a new action
+
 import React, { Component } from 'react'
 import Square from './Square.js'
 
@@ -8,6 +14,7 @@ class Room extends Component {
     isSelected: null,
     squareArray: [],
     isExitPoint: [],
+    actionCompleted: false,
     charLocations: [45, 46, 55, 56], //Need to think of a way to be comparing this array and the exit point array
                                     //When they match you win and the game should end
                                     //Each exit point can be tied to a character via their indexes
@@ -23,7 +30,7 @@ class Room extends Component {
     let borderSquareArr = []
     const exitPoints = []
 
-    window.addEventListener('keydown', (event) => this.handleKeyDown(event.code))
+    window.addEventListener('keydown', (event) => this.handleKeyDown(event.code, this.props.currentAction))
 
     while (arr.length < 100) {
       arr.push(++i)
@@ -209,13 +216,13 @@ class Room extends Component {
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   // ARROW KEY FUNCTIONALITY ⬇️
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  handleKeyDown = (keyPressed) => {
-    if (this.state.isSelected) {
+  handleKeyDown = (keyPressed, currentAction) => {
+    if (this.state.isSelected && keyPressed === 'Space') {
       let currentlySelected = this.state.isSelected
       let currentChar = this.state.charLocations.indexOf(currentlySelected)
 
-      switch (keyPressed) {
-        case 'ArrowRight':
+      switch (currentAction) {
+        case 'right':
           if (!this.rightSquare(currentlySelected)) {
             currentlySelected = currentlySelected + 1
             let nextSpace = this.state.squareArray.find(squareObj => squareObj.id === currentlySelected)
@@ -225,7 +232,7 @@ class Room extends Component {
             }
           }
           break
-        case 'ArrowLeft':
+        case 'left':
           if (!this.leftSquare(currentlySelected)) {
             currentlySelected = currentlySelected - 1
             let nextSpace = this.state.squareArray.find(squareObj => squareObj.id === currentlySelected)
@@ -236,7 +243,7 @@ class Room extends Component {
           }
           break
         //ArrowUp causes an error on the bottom left square
-        case 'ArrowUp':
+        case 'up':
           if (!this.topSquare(currentlySelected)) {
             currentlySelected = currentlySelected - 10
             let nextSpace = this.state.squareArray.find(squareObj => squareObj.id === currentlySelected)
@@ -247,7 +254,7 @@ class Room extends Component {
           }
           break
         //ArrowDown causes an error on the bottom left square
-        case 'ArrowDown':
+        case 'down':
           if (!this.bottomSquare(currentlySelected)) {
             currentlySelected = currentlySelected + 10
             let nextSpace = this.state.squareArray.find(squareObj => squareObj.id === currentlySelected)
