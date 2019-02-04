@@ -221,6 +221,10 @@ class Room extends Component {
       let currentlySelected = this.state.isSelected
       let currentChar = this.state.charLocations.indexOf(currentlySelected)
 
+      this.setState({
+        actionCompleted: true,
+      })
+
       switch (currentAction) {
         case 'right':
           if (!this.rightSquare(currentlySelected)) {
