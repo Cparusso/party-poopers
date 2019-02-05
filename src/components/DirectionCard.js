@@ -6,7 +6,7 @@ class DirectionCard extends Component {
   render() {
     return (
       <div className="direction-card" >
-        <p class="currentDirection" onClick={ () => this.props.changeAction() } >{ this.props.currentAction }</p>
+        <p className="currentDirection" onClick={ () => this.props.changeAction() } >{ this.props.currentAction }</p>
       </div>
     )
   }

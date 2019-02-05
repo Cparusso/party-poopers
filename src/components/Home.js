@@ -19,18 +19,15 @@ class Home extends Component {
   changeAction = () => {
     let possibleActions = ['up', 'right', 'down', 'left']
     let currentAction = this.state.currentAction
-    let nextAction = possibleActions[Math.floor(Math.random()*possibleActions.length)]
-    console.log('Current (before):', currentAction)
-    console.log('Next:', nextAction)
-    console.log('Match:', nextAction === currentAction)
+    let currentActionIndex = possibleActions.indexOf(currentAction)
 
-    if (nextAction === currentAction) {
-      this.changeAction()
-    } else {
-      this.setState({
-        currentAction: nextAction
-      }, () => (console.log('Current (after):', this.state.currentAction)))
-    }
+    possibleActions.splice(currentActionIndex, 1)
+
+    let nextAction = possibleActions[Math.floor(Math.random()*possibleActions.length)]
+
+    this.setState({
+      currentAction: nextAction
+    })
   }
 
   render() {
