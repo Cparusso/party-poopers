@@ -167,22 +167,49 @@ class Room extends Component {
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   // TILE SELECTION ⬇️
+  // Note: - After any character is moved at least once, the actionCompleted (in state) should be changed to true
+  //         If the actionCompleted is true when selecting a new character the action should be changed in the direction card
+  //       - I should be able to select and unselect characters at will without triggering the action to change UNLESS I've
+  //         already use the action
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  selectTile = (selectedSquareId, currentChar) => {
+  selectTile = (selectedSquareId, currentChar, keyOrClick) => {
     //Create a copy of the character locations array so that I can alter the state of a single element from the array
+    console.log('selected square:', selectedSquareId);
+    console.log('current character:', currentChar);
+    console.log('key or click:', keyOrClick);
     let charLocationsArr = this.state.charLocations.slice()
     charLocationsArr[currentChar] = selectedSquareId
 
-    //clicking the selected square should remove the selection.
-    if (this.state.isSelected === selectedSquareId) {
+    // If I cick on a square I should be selecting, or unselecting it
+    // I should be able to do this as many times as I want without changing the actionCompleted status
+    // IF I am using a keypress to select a tile I should be changing the actionCompleted status
+    if (keyOrClick === 'click') {
+      //clicking the selected square should remove the selection.
+      if (this.state.isSelected === selectedSquareId) {
+        this.setState({
+          actionCompleted: false,
+          isSelected: null,
+        }, () => console.log('actionCompleted:', this.state.actionCompleted))
+      } else {
+        console.log('actionCompleted before state change:', this.state.actionCompleted)
+        if (this.state.actionCompleted) {
+          this.props.changeAction()
+        }
+
+        this.setState({
+          actionCompleted: false,
+          isSelected: selectedSquareId,
+          charLocations: charLocationsArr,
+        }, () => console.log('actionCompleted after state change:', this.state.actionCompleted))
+      }
+    }
+
+    if (keyOrClick === 'keyPress') {
       this.setState({
-        isSelected: null,
-      })
-    } else {
-      this.setState({
+        actionCompleted: true,
         isSelected: selectedSquareId,
-        charLocations: charLocationsArr
-      })
+        charLocations: charLocationsArr,
+      }, () => console.log('actionCompleted:', this.state.actionCompleted))
     }
   }
 
@@ -214,25 +241,33 @@ class Room extends Component {
 
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  // ARROW KEY FUNCTIONALITY ⬇️
+  // KEY DOWN FUNCTIONALITY ⬇️
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   handleKeyDown = (keyPressed, currentAction) => {
+    // Check to see that there is currently a character selected AND that the key pressed is the space bar
     if (this.state.isSelected && keyPressed === 'Space') {
+      // Set currentlySelected to the selection in state
       let currentlySelected = this.state.isSelected
+      // Set currentChar to the index of the currentlySelected character in the charLocations array
       let currentChar = this.state.charLocations.indexOf(currentlySelected)
 
-      this.setState({
-        actionCompleted: true,
-      })
-
+      // This switch will move the selected character in whatever direction is held in the action card (currentAction)
       switch (currentAction) {
         case 'right':
+          // If the selected square is on the right border of the board do nothing otherwise...
           if (!this.rightSquare(currentlySelected)) {
+            // increment currentlySelected by 1 (really this is an adjacent square - this variable should be renamed)
+            // could also probably just rename nextSpace to adjacentSquare and find the squareObj.id === currentlySelected + 1
             currentlySelected = currentlySelected + 1
+            // find the square object in the squareArray is one space to the right of the selection
             let nextSpace = this.state.squareArray.find(squareObj => squareObj.id === currentlySelected)
 
+            // if this nextSpace allows characters in it AND it is unoccupied by another character... (is this redundant?)
             if (nextSpace.charAllowed && !this.state.charLocations.includes(nextSpace.id)) {
-              this.selectTile(currentlySelected, currentChar)
+              // run the selectTile function on the currentlySelected square and the currentChar
+              // additionally we need to pass in an argument that will inform the selectTile function that it is being run on a
+              // keypress and not a click
+              this.selectTile(currentlySelected, currentChar, 'keyPress')
             }
           }
           break
@@ -242,7 +277,7 @@ class Room extends Component {
             let nextSpace = this.state.squareArray.find(squareObj => squareObj.id === currentlySelected)
 
             if (nextSpace.charAllowed && !this.state.charLocations.includes(nextSpace.id)) {
-              this.selectTile(currentlySelected, currentChar)
+              this.selectTile(currentlySelected, currentChar, 'keyPress')
             }
           }
           break
@@ -253,7 +288,7 @@ class Room extends Component {
             let nextSpace = this.state.squareArray.find(squareObj => squareObj.id === currentlySelected)
 
             if (nextSpace.charAllowed && !this.state.charLocations.includes(nextSpace.id)) {
-              this.selectTile(currentlySelected, currentChar)
+              this.selectTile(currentlySelected, currentChar, 'keyPress')
             }
           }
           break
@@ -264,7 +299,7 @@ class Room extends Component {
             let nextSpace = this.state.squareArray.find(squareObj => squareObj.id === currentlySelected)
 
             if (nextSpace.charAllowed && !this.state.charLocations.includes(nextSpace.id)) {
-              this.selectTile(currentlySelected, currentChar)
+              this.selectTile(currentlySelected, currentChar, 'keyPress')
             }
           }
             break

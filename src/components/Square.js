@@ -13,6 +13,7 @@ class Square extends Component {
   render() {
     const { isSelected, id, isExitPoint, charAllowed, charLocations, selectTile } = this.props
 
+    let charNum = this.props.charLocations.indexOf(this.props.id)
     let clicked = isSelected === id ? 'clicked' : null
     let exitPoint = isExitPoint.includes(id) ? 'exitPoint' : null
     let charOnTile = charLocations.includes(id)
@@ -20,7 +21,7 @@ class Square extends Component {
     let win = charOnTile && exitPoint === 'exitPoint' ? 'win' : null
 
     return (
-      <div className={`square ${clicked} ${charIsAllowed} ${exitPoint} ${win}`} onClick={ charOnTile ? () => selectTile(id) : null }>
+      <div className={`square ${clicked} ${charIsAllowed} ${exitPoint} ${win}`} onClick={ charOnTile ? () => selectTile(id, charNum, 'click') : null }>
         {charOnTile ? this.createChar(win) : null}
       </div>
     )

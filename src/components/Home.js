@@ -37,7 +37,7 @@ class Home extends Component {
       <div className="app">
         {this.state.playing ?
           <div>
-            <Room currentAction={ currentAction } />
+            <Room currentAction={ currentAction } changeAction={ this.changeAction } />
             <DirectionCard currentAction={ currentAction } changeAction={ this.changeAction } />
           </div>
         :
