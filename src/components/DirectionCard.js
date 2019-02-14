@@ -3,7 +3,9 @@ import React, { Component } from 'react'
 import './styles/direction-card.css'
 
 class DirectionCard extends Component {
-
+  componentDidMount = () => {
+    this.props.changeAction()
+  }
   render() {
     return (
       <div className="direction-card" >
