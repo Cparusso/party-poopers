@@ -3,10 +3,11 @@ import React, { Component } from 'react'
 import './styles/direction-card.css'
 
 class DirectionCard extends Component {
+
   render() {
     return (
       <div className="direction-card" >
-        <p className="currentDirection" onClick={ () => this.props.changeAction() } >{ this.props.currentAction }</p>
+        <p className="currentDirection">{ this.props.currentAction }</p>
       </div>
     )
   }
