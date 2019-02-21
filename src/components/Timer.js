@@ -7,7 +7,12 @@ class Timer extends Component {
   render() {
     return (
       <div className="timer-container">
-        03:00
+        <p className="clock-words">
+          Time Remaining
+        </p>
+        <p className="time">
+          03:00
+        </p>
       </div>
     )
   }
