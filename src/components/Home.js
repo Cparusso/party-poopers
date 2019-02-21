@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Room from './Room.js'
 import DirectionCard from './DirectionCard.js'
+import Timer from './Timer.js'
 
 import './styles/home.css'
 
@@ -42,6 +43,7 @@ class Home extends Component {
               changeAction={ this.changeAction }
               quit={ this.togglePlaying }
             />
+          <Timer />
             <DirectionCard
               currentAction={ currentAction }
               changeAction={ this.changeAction }
