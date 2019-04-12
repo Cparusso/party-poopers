@@ -244,8 +244,10 @@ class Room extends Component {
   // KEY DOWN FUNCTIONALITY ⬇️
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   handleKeyDown = (keyPressed, currentAction) => {
+    const acceptedKeys = ['Enter', 'Space']
     // Check to see that there is currently a character selected AND that the key pressed is the space bar
-    if (this.state.isSelected && keyPressed === 'Space') {
+    // if (this.state.isSelected && keyPressed === 'Enter' || this.state.isSelected && keyPressed === 'Space') {
+    if (this.state.isSelected && acceptedKeys.includes(keyPressed)) {
       // Set currentlySelected to the selection in state
       let currentlySelected = this.state.isSelected
       // Set currentChar to the index of the currentlySelected character in the charLocations array
