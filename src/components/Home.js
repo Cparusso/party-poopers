@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Room from './Room.js'
 import DirectionCard from './DirectionCard.js'
+import Timer from './Timer.js'
 
 import './styles/home.css'
 
@@ -37,6 +38,7 @@ class Home extends Component {
       <div className="app">
         {this.state.playing ?
           <div>
+            <Timer/>
             <Room
               currentAction={ currentAction }
               changeAction={ this.changeAction }
