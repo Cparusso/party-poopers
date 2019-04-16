@@ -1,47 +1,46 @@
 import React, { Component } from 'react'
 
 export default class Timer extends Component {
-    state={
-        minutes: 2,
-        seconds: 59,
-        timesUp: false
+    state = {
+        minutes: 3,
+        seconds: 0,
     }
 
     componentDidMount() {
         this.myInterval = setInterval(() => {
-            if (this.state.seconds > -1) {
-                this.setState(previousState => ({
-                    seconds: previousState.seconds - 1
+            const { seconds, minutes } = this.state
+
+            if (seconds > 0) {
+                this.setState(({ seconds }) => ({
+                    seconds: seconds - 1
                 }))
             }
-            if (this.state.seconds === -1) {
-                if (this.state.minutes === 0) {
-                    this.setState({timesUp: true})
+            if (seconds === 0) {
+                if (minutes === 0) {
+                    clearInterval(this.myInterval)
                 } else {
-                    this.setState(previousState => ({
-                        minutes: previousState.minutes - 1,
+                    this.setState(({ minutes }) => ({
+                        minutes: minutes - 1,
                         seconds: 59
                     }))
                 }
-            }
+            } 
         }, 1000)
     }
 
     componentWillUnmount() {
         clearInterval(this.myInterval)
     }
-    
+
     render() {
-        const { minutes, seconds, timesUp } = this.state
-        console.log(timesUp)
+        const { minutes, seconds } = this.state
         return (
-        <div>
-                { timesUp ? 
-                <h1>BUSTED</h1>
-                :
-                <h1>Time Remaining : {`${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`}</h1> 
+            <div>
+                { minutes === 0 && seconds === 0
+                    ? <h1>Busted!</h1>
+                    : <h1>Time Remaining: {minutes}:{seconds < 10 ? `0${seconds}` : seconds}</h1>
                 }
-        </div>
+            </div>
         )
     }
 }
