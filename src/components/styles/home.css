@@ -20,3 +20,15 @@
 .game-button:hover {
   color: #ffffff30;
 }
+
+.app {
+  display: flex;
+  justify-content: space-around;
+  align-items: space-around;
+}
+
+.game-room-and-controls {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}

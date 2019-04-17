@@ -37,17 +37,19 @@ class Home extends Component {
     return (
       <div className="app">
         {this.state.playing ?
-          <div>
-            <Timer/>
+          <div className="game-room-and-controls">
             <Room
               currentAction={ currentAction }
               changeAction={ this.changeAction }
               quit={ this.togglePlaying }
-            />
-            <DirectionCard
-              currentAction={ currentAction }
-              changeAction={ this.changeAction }
-            />
+              />
+            <div>
+              <Timer/>
+              <DirectionCard
+                currentAction={ currentAction }
+                changeAction={ this.changeAction }
+              />
+            </div>
           </div>
         :
           <div className="home-screen-container">

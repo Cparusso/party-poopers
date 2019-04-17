@@ -2,9 +2,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  position: fixed;
-  bottom: 12.5%;
-  right: 10%;
+  /* position: fixed; */
+  /* bottom: 12.5%; */
+  /* right: 10%; */
   width: 10vw;
   height: 15vw;
   border: solid black 0.2em;
