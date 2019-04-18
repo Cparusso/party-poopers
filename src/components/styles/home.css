@@ -21,11 +21,11 @@
   color: #ffffff30;
 }
 
-.app {
+/* .app {
   display: flex;
   justify-content: space-around;
   align-items: space-around;
-}
+} */
 
 .game-room-and-controls {
   display: flex;

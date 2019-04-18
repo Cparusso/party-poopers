@@ -35,7 +35,7 @@ class Home extends Component {
     const { currentAction } = this.state
 
     return (
-      <div className="app">
+      <div>
         {this.state.playing ?
           <div className="game-room-and-controls">
             <Room

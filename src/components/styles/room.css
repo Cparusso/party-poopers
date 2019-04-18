@@ -17,6 +17,6 @@
   grid-template-columns: repeat(10, 4vw);
   grid-template-rows: repeat(10, 4vw);
   border: solid black 0.1em;
-  border-radius: 1.8em;
+  border-radius: 0.8em;
   overflow: hidden;
 }
