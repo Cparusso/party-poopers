@@ -50,10 +50,11 @@ class Home extends Component {
               changeAction={ this.changeAction }
               quit={ this.togglePlaying }
               toggleWin={ this.toggleWin }
-              win={ win }
               />
             <div>
-              <Timer/>
+              <Timer
+                win={win}
+              />
               <DirectionCard
                 currentAction={ currentAction }
                 changeAction={ this.changeAction }

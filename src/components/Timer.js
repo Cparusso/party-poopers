@@ -32,14 +32,23 @@ export default class Timer extends Component {
         clearInterval(this.myInterval)
     }
 
+    display = (minutes, seconds, win) => {
+        if (win) {
+            return <h1>You Win!</h1>
+        } else {
+            if (minutes === 0 && seconds === 0) {
+                return <h1>Busted!</h1>
+            } else {
+                return <h1>Time Remaining: {minutes}:{seconds < 10 ? `0${seconds}` : seconds}</h1>
+            }
+        }
+    }
+
     render() {
         const { minutes, seconds } = this.state
         return (
             <div>
-                { minutes === 0 && seconds === 0
-                    ? <h1>Busted!</h1>
-                    : <h1>Time Remaining: {minutes}:{seconds < 10 ? `0${seconds}` : seconds}</h1>
-                }
+                { this.display(minutes, seconds, this.props.win) }
             </div>
         )
     }

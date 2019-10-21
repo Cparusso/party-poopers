@@ -333,7 +333,7 @@ class Room extends Component {
   }
 
   render() {
-    const { charLocations, isSelected, isExitPoint, win } = this.state
+    const { charLocations, isSelected, isExitPoint } = this.state
 
     return (
       <div className='game-room'>
@@ -347,9 +347,8 @@ class Room extends Component {
               charAllowed={ el.charAllowed }
               isExitPoint={ isExitPoint }
               selectTile={ this.selectTile }
-              win={ win }
-            />)}
-            { this.props.win ? <div>You Win!</div> : <div></div>}
+            />
+          )}
         </div>
       </div>
     )
