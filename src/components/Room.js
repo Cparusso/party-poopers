@@ -270,6 +270,7 @@ class Room extends Component {
               // additionally we need to pass in an argument that will inform the selectTile function that it is being run on a
               // keypress and not a click
               this.selectTile(currentlySelected, currentChar, 'keyPress')
+              this.checkForWin()
             }
           }
           break
@@ -280,6 +281,7 @@ class Room extends Component {
 
             if (nextSpace.charAllowed && !this.state.charLocations.includes(nextSpace.id)) {
               this.selectTile(currentlySelected, currentChar, 'keyPress')
+              this.checkForWin()
             }
           }
           break
@@ -291,6 +293,7 @@ class Room extends Component {
 
             if (nextSpace.charAllowed && !this.state.charLocations.includes(nextSpace.id)) {
               this.selectTile(currentlySelected, currentChar, 'keyPress')
+              this.checkForWin()
             }
           }
           break
@@ -302,6 +305,7 @@ class Room extends Component {
 
             if (nextSpace.charAllowed && !this.state.charLocations.includes(nextSpace.id)) {
               this.selectTile(currentlySelected, currentChar, 'keyPress')
+              this.checkForWin()
             }
           }
             break
@@ -311,21 +315,41 @@ class Room extends Component {
     }
   }
 
+  //Currently the win condition is just that all four characters are in an exit point
+  //At some point each exit point should be character specific (based on the indexes)
+  checkForWin = () => {
+    console.log("DID I WIN?!?!?!?")
+    console.log("Exit Points:", this.state.isExitPoint)
+    console.log("Character Positions:", this.state.charLocations)
+    let winCheck = true
+
+    this.state.isExitPoint.forEach(position => {
+      if (!this.state.charLocations.includes(position)) {
+        winCheck = false
+      }
+    })
+
+    this.props.toggleWin(winCheck)
+  }
 
   render() {
-    const { charLocations, isSelected, isExitPoint } = this.state
+    const { charLocations, isSelected, isExitPoint, win } = this.state
 
     return (
       <div className='game-room'>
         <div className="room grid-container">
-          {this.state.squareArray.map(el => <Square
-            charLocations={ charLocations }
-            isSelected={ isSelected }
-            key={ el.id }
-            id={ el.id }
-            charAllowed={ el.charAllowed }
-            isExitPoint={ isExitPoint }
-            selectTile={ this.selectTile }/>)}
+          {this.state.squareArray.map(el => 
+            <Square
+              charLocations={ charLocations }
+              isSelected={ isSelected }
+              key={ el.id }
+              id={ el.id }
+              charAllowed={ el.charAllowed }
+              isExitPoint={ isExitPoint }
+              selectTile={ this.selectTile }
+              win={ win }
+            />)}
+            { this.props.win ? <div>You Win!</div> : <div></div>}
         </div>
       </div>
     )

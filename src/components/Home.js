@@ -9,11 +9,18 @@ class Home extends Component {
   state = {
     playing: false,
     currentAction: 'up',
+    win: false,
   }
 
   togglePlaying = () => {
     this.setState({
       playing: !this.state.playing
+    })
+  }
+
+  toggleWin = (winCheck) => {
+    this.setState({
+      win: winCheck
     })
   }
 
@@ -32,7 +39,7 @@ class Home extends Component {
   }
 
   render() {
-    const { currentAction } = this.state
+    const { currentAction, win } = this.state
 
     return (
       <div>
@@ -42,6 +49,8 @@ class Home extends Component {
               currentAction={ currentAction }
               changeAction={ this.changeAction }
               quit={ this.togglePlaying }
+              toggleWin={ this.toggleWin }
+              win={ win }
               />
             <div>
               <Timer/>
