@@ -51,7 +51,7 @@ class Home extends Component {
               quit={ this.togglePlaying }
               toggleWin={ this.toggleWin }
               />
-            <div>
+            <div id="game-info-section">
               <Timer
                 win={win}
               />

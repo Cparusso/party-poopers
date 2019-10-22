@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 
+import './styles/timer.css'
+
 export default class Timer extends Component {
     state = {
         minutes: 3,
@@ -34,12 +36,27 @@ export default class Timer extends Component {
 
     display = (minutes, seconds, win) => {
         if (win) {
-            return <h1>You Win!</h1>
+            clearInterval(this.myInterval)
+            return (
+                <div>
+                    <h1>You Win!</h1>
+                    <h1>{minutes}:{seconds < 10 ? `0${seconds}` : seconds}</h1>
+                </div>
+            )
         } else {
             if (minutes === 0 && seconds === 0) {
-                return <h1>Busted!</h1>
+                return (
+                    <div>
+                        <h1>Busted!</h1>
+                    </div>
+                )
             } else {
-                return <h1>Time Remaining: {minutes}:{seconds < 10 ? `0${seconds}` : seconds}</h1>
+                return (
+                    <div>
+                        <h1>Time Remaining:</h1>
+                        <h1>{minutes}:{seconds < 10 ? `0${seconds}` : seconds}</h1>
+                    </div>
+                )
             }
         }
     }
@@ -47,7 +64,7 @@ export default class Timer extends Component {
     render() {
         const { minutes, seconds } = this.state
         return (
-            <div>
+            <div id="display">
                 { this.display(minutes, seconds, this.props.win) }
             </div>
         )
